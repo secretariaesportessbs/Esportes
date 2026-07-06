@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { google, sheets_v4 } from "googleapis";
 
 // ponytail: módulo roda só no servidor (Server Actions/Route Handlers) — nunca importar em componente client.
@@ -46,24 +47,26 @@ function rowsToObjects(rows: string[][]): Record<string, string>[] {
     });
 }
 
-/** Lê o cabeçalho (linha 1) de uma aba. */
-export async function getHeaders(sheetName: string): Promise<string[]> {
-  const sheets = getSheets();
-  const res = await sheets.spreadsheets.values.get({
-    spreadsheetId: getSpreadsheetId(),
-    range: `${sheetName}!1:1`,
-  });
-  return (res.data.values?.[0] as string[]) ?? [];
-}
-
-/** Lê todas as linhas de uma aba e retorna como objetos (chave = cabeçalho). */
-export async function getData(sheetName: string): Promise<Record<string, string>[]> {
+// ponytail: uma leitura crua por aba por request, deduplicada via React cache().
+// getHeaders/getData/findRowById reaproveitam a mesma linha em vez de 3 chamadas separadas à API.
+const getRawRows = cache(async (sheetName: string): Promise<string[][]> => {
   const sheets = getSheets();
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: getSpreadsheetId(),
     range: `${sheetName}!A:ZZ`,
   });
-  return rowsToObjects((res.data.values as string[][]) ?? []);
+  return (res.data.values as string[][]) ?? [];
+});
+
+/** Lê o cabeçalho (linha 1) de uma aba. */
+export async function getHeaders(sheetName: string): Promise<string[]> {
+  const rows = await getRawRows(sheetName);
+  return rows[0] ?? [];
+}
+
+/** Lê todas as linhas de uma aba e retorna como objetos (chave = cabeçalho). */
+export async function getData(sheetName: string): Promise<Record<string, string>[]> {
+  return rowsToObjects(await getRawRows(sheetName));
 }
 
 /** Insere uma nova linha ao final da aba, respeitando a ordem das colunas do cabeçalho. */
@@ -88,12 +91,7 @@ async function findRowById(
   idColumn: string,
   id: string
 ): Promise<{ rowNumber: number; headers: string[]; currentRow: string[] } | null> {
-  const sheets = getSheets();
-  const res = await sheets.spreadsheets.values.get({
-    spreadsheetId: getSpreadsheetId(),
-    range: `${sheetName}!A:ZZ`,
-  });
-  const rows = (res.data.values as string[][]) ?? [];
+  const rows = await getRawRows(sheetName);
   if (rows.length === 0) return null;
   const headers = rows[0];
   const idIndex = headers.indexOf(idColumn);
