@@ -2,7 +2,15 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { loginSchema, jogoSchema, resultadoSchema, configSchema } from "@/lib/validation";
+import {
+  loginSchema,
+  jogoSchema,
+  resultadoSchema,
+  configSchema,
+  escudoTimeSchema,
+  ESCUDO_TIPOS_ACEITOS,
+  ESCUDO_MAX_BYTES,
+} from "@/lib/validation";
 import { criarSessaoAdmin, encerrarSessaoAdmin, exigirAdmin, validarSenhaAdmin } from "@/lib/auth";
 import {
   criarJogo,
@@ -13,6 +21,7 @@ import {
 import { excluirParticipante } from "@/services/participantesService";
 import { recalcularPontuacaoGeral } from "@/services/pontuacaoService";
 import { definirConfiguracao } from "@/services/configuracoesService";
+import { salvarEscudoTime } from "@/services/timesService";
 import type { ActionResult } from "@/types";
 
 function revalidarTudo() {
@@ -171,5 +180,38 @@ export async function atualizarConfiguracaoAction(
     return { success: true, message: "Configuração atualizada." };
   } catch (error) {
     return { success: false, message: error instanceof Error ? error.message : "Erro ao atualizar configuração." };
+  }
+}
+
+export async function uploadEscudoTimeAction(
+  _prev: ActionResult | null,
+  formData: FormData
+): Promise<ActionResult> {
+  await exigirAdmin();
+  const parsed = escudoTimeSchema.safeParse({ nome: formData.get("nome") });
+  if (!parsed.success) {
+    return { success: false, message: "Time inválido." };
+  }
+  const arquivo = formData.get("escudo");
+  if (!(arquivo instanceof File) || arquivo.size === 0) {
+    return { success: false, message: "Selecione uma imagem." };
+  }
+  if (!ESCUDO_TIPOS_ACEITOS.includes(arquivo.type)) {
+    return { success: false, message: "Formato inválido. Use PNG, JPG, WEBP ou SVG." };
+  }
+  if (arquivo.size > ESCUDO_MAX_BYTES) {
+    return { success: false, message: `Imagem muito grande. Máximo: ${ESCUDO_MAX_BYTES / 1024}KB.` };
+  }
+  try {
+    const buffer = Buffer.from(await arquivo.arrayBuffer());
+    const dataUri = `data:${arquivo.type};base64,${buffer.toString("base64")}`;
+    await salvarEscudoTime(parsed.data.nome, dataUri);
+    revalidatePath("/");
+    revalidatePath("/palpites");
+    revalidatePath("/ranking");
+    revalidatePath("/admin/times");
+    return { success: true, message: "Escudo atualizado com sucesso." };
+  } catch (error) {
+    return { success: false, message: error instanceof Error ? error.message : "Erro ao salvar escudo." };
   }
 }

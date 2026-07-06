@@ -4,6 +4,7 @@ import { logoutAdminAction } from "@/actions/admin";
 const links = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/jogos", label: "Jogos" },
+  { href: "/admin/times", label: "Times" },
   { href: "/admin/participantes", label: "Participantes" },
   { href: "/admin/configuracoes", label: "Configurações" },
 ];

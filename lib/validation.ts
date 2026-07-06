@@ -49,3 +49,12 @@ export const configSchema = z.object({
   chave: z.string().trim().min(1),
   valor: z.string().trim().max(500),
 });
+
+// ponytail: escudo vira data URI numa célula do Sheets (limite de 50k chars),
+// por isso o limite de arquivo fica bem abaixo disso (32KB brutos ~= 43KB em base64).
+export const ESCUDO_TIPOS_ACEITOS = ["image/png", "image/jpeg", "image/webp", "image/svg+xml"];
+export const ESCUDO_MAX_BYTES = 32 * 1024;
+
+export const escudoTimeSchema = z.object({
+  nome: z.string().trim().min(1, "Selecione o time"),
+});

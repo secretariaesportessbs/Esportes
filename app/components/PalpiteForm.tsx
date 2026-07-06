@@ -15,12 +15,14 @@ export default function PalpiteForm({
   placarMandanteInicial,
   placarVisitanteInicial,
   aceitaPalpite,
+  escudos,
 }: {
   participanteId: string;
   jogo: Jogo;
   placarMandanteInicial: number | null;
   placarVisitanteInicial: number | null;
   aceitaPalpite: boolean;
+  escudos?: Record<string, string>;
 }) {
   const [state, formAction] = useActionState(enviarPalpiteAction, initialState);
 
@@ -32,7 +34,7 @@ export default function PalpiteForm({
 
   if (!aceitaPalpite) {
     return (
-      <JogoCard jogo={jogo}>
+      <JogoCard jogo={jogo} escudos={escudos}>
         <p className="text-sm text-slate-500">
           {placarMandanteInicial !== null
             ? `Seu palpite: ${placarMandanteInicial} x ${placarVisitanteInicial}`
@@ -48,6 +50,7 @@ export default function PalpiteForm({
       <input type="hidden" name="jogoId" value={jogo.id} />
       <JogoCard
         jogo={jogo}
+        escudos={escudos}
         centerSlot={
           <span className="flex items-center gap-1">
             <input

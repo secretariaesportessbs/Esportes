@@ -4,6 +4,7 @@ export const SHEET_NAMES = {
   PALPITES: "Palpites",
   PONTUACAO: "Pontuacao",
   CONFIGURACOES: "Configuracoes",
+  TIMES: "Times",
 } as const;
 
 export const SHEET_HEADERS: Record<string, string[]> = {
@@ -29,4 +30,5 @@ export const SHEET_HEADERS: Record<string, string[]> = {
   ],
   [SHEET_NAMES.PONTUACAO]: ["participanteId", "pontos", "jogosAcertados", "placaresExatos"],
   [SHEET_NAMES.CONFIGURACOES]: ["chave", "valor"],
+  [SHEET_NAMES.TIMES]: ["nome", "escudo"],
 };

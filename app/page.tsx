@@ -2,6 +2,7 @@ import Link from "next/link";
 import { listarProximosJogos } from "@/services/jogosService";
 import { obterRankingGeral } from "@/services/pontuacaoService";
 import { obterConfiguracao } from "@/services/configuracoesService";
+import { listarEscudos } from "@/services/timesService";
 import JogoCard from "@/app/components/JogoCard";
 import RankingTable from "@/app/components/RankingTable";
 
@@ -15,6 +16,7 @@ export default async function HomePage() {
   );
   const proximosJogos = await listarProximosJogos(4);
   const ranking = await obterRankingGeral();
+  const escudos = await listarEscudos();
 
   return (
     <div>
@@ -43,7 +45,7 @@ export default async function HomePage() {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             {proximosJogos.map((jogo) => (
-              <JogoCard key={jogo.id} jogo={jogo} />
+              <JogoCard key={jogo.id} jogo={jogo} escudos={escudos} />
             ))}
           </div>
         )}

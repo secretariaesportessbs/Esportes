@@ -3,6 +3,7 @@ import { buscarParticipantePorId } from "@/services/participantesService";
 import { listarJogos } from "@/services/jogosService";
 import { listarPalpitesDoParticipante } from "@/services/palpitesService";
 import { jogoAceitaPalpite } from "@/services/jogosService";
+import { listarEscudos } from "@/services/timesService";
 import PalpiteForm from "@/app/components/PalpiteForm";
 import IdentificacaoForm from "@/app/components/IdentificacaoForm";
 
@@ -24,9 +25,10 @@ export default async function PalpitesPage() {
     );
   }
 
-  const [jogos, palpites] = await Promise.all([
+  const [jogos, palpites, escudos] = await Promise.all([
     listarJogos(),
     listarPalpitesDoParticipante(participante.id),
+    listarEscudos(),
   ]);
   const palpitesPorJogo = new Map(palpites.map((p) => [p.jogoId, p]));
 
@@ -51,6 +53,7 @@ export default async function PalpitesPage() {
                 placarMandanteInicial={palpite?.placarMandante ?? null}
                 placarVisitanteInicial={palpite?.placarVisitante ?? null}
                 aceitaPalpite={jogoAceitaPalpite(jogo)}
+                escudos={escudos}
               />
             );
           })}
