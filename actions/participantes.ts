@@ -1,9 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { participanteSchema, telefoneSchema } from "@/lib/validation";
+import { participanteSchema, entrarSchema } from "@/lib/validation";
 import { setParticipanteAtual } from "@/lib/participanteSession";
-import { buscarParticipantePorTelefone, criarParticipante } from "@/services/participantesService";
+import { autenticarParticipante, criarParticipante } from "@/services/participantesService";
 import type { ActionResult, Participante } from "@/types";
 
 export async function cadastrarParticipanteAction(
@@ -13,6 +13,7 @@ export async function cadastrarParticipanteAction(
   const parsed = participanteSchema.safeParse({
     nome: formData.get("nome"),
     telefone: formData.get("telefone"),
+    senha: formData.get("senha"),
     email: formData.get("email"),
     cidade: formData.get("cidade"),
   });
@@ -48,20 +49,23 @@ export async function entrarComoParticipanteAction(
   _prev: ActionResult<Participante> | null,
   formData: FormData
 ): Promise<ActionResult<Participante>> {
-  const parsed = telefoneSchema.safeParse({ telefone: formData.get("telefone") });
+  const parsed = entrarSchema.safeParse({
+    telefone: formData.get("telefone"),
+    senha: formData.get("senha"),
+  });
   if (!parsed.success) {
     return {
       success: false,
-      message: "Informe um telefone válido.",
+      message: "Informe telefone e senha válidos.",
       fieldErrors: parsed.error.flatten().fieldErrors,
     };
   }
 
-  const participante = await buscarParticipantePorTelefone(parsed.data.telefone);
+  const participante = await autenticarParticipante(parsed.data.telefone, parsed.data.senha);
   if (!participante) {
     return {
       success: false,
-      message: "Nenhum cadastro encontrado com esse telefone. Cadastre-se abaixo.",
+      message: "Telefone ou senha incorretos.",
     };
   }
 

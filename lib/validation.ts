@@ -10,6 +10,7 @@ export const participanteSchema = z.object({
     .regex(/^[\d()+\-\s]+$/, "Use apenas números e símbolos de telefone"),
   email: z.string().trim().email("E-mail inválido").max(150).optional().or(z.literal("")),
   cidade: z.string().trim().max(100).optional().or(z.literal("")),
+  senha: z.string().trim().min(4, "A senha deve ter ao menos 4 caracteres").max(20),
 });
 
 export const palpiteSchema = z.object({
@@ -37,12 +38,13 @@ export const loginSchema = z.object({
   senha: z.string().min(1, "Informe a senha"),
 });
 
-export const telefoneSchema = z.object({
+export const entrarSchema = z.object({
   telefone: z
     .string()
     .trim()
     .min(10, "Telefone inválido")
     .regex(/^[\d()+\-\s]+$/, "Use apenas números e símbolos de telefone"),
+  senha: z.string().min(1, "Informe a senha"),
 });
 
 export const configSchema = z.object({

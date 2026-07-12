@@ -8,7 +8,7 @@ export const SHEET_NAMES = {
 } as const;
 
 export const SHEET_HEADERS: Record<string, string[]> = {
-  [SHEET_NAMES.PARTICIPANTES]: ["id", "nome", "telefone", "email", "cidade", "criadoEm"],
+  [SHEET_NAMES.PARTICIPANTES]: ["id", "nome", "telefone", "senha", "email", "cidade", "criadoEm"],
   [SHEET_NAMES.JOGOS]: [
     "id",
     "rodada",

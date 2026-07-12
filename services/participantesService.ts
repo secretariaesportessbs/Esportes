@@ -9,6 +9,7 @@ function toParticipante(row: Record<string, string>): Participante {
     id: row.id,
     nome: row.nome,
     telefone: row.telefone,
+    senha: row.senha,
     email: row.email || undefined,
     cidade: row.cidade || undefined,
     criadoEm: row.criadoEm,
@@ -36,9 +37,16 @@ export async function buscarParticipantePorTelefone(telefone: string): Promise<P
   return participantes.find((p) => normalizarTelefone(p.telefone) === alvo) ?? null;
 }
 
+export async function autenticarParticipante(telefone: string, senha: string): Promise<Participante | null> {
+  const participante = await buscarParticipantePorTelefone(telefone);
+  if (!participante || participante.senha !== senha) return null;
+  return participante;
+}
+
 export interface NovoParticipanteInput {
   nome: string;
   telefone: string;
+  senha: string;
   email?: string;
   cidade?: string;
 }
@@ -49,6 +57,7 @@ export async function criarParticipante(input: NovoParticipanteInput): Promise<P
     id: randomUUID(),
     nome: input.nome.trim(),
     telefone: input.telefone.trim(),
+    senha: input.senha.trim(),
     email: input.email?.trim() || undefined,
     cidade: input.cidade?.trim() || undefined,
     criadoEm: new Date().toISOString(),
@@ -57,6 +66,7 @@ export async function criarParticipante(input: NovoParticipanteInput): Promise<P
     id: participante.id,
     nome: participante.nome,
     telefone: participante.telefone,
+    senha: participante.senha,
     email: participante.email ?? "",
     cidade: participante.cidade ?? "",
     criadoEm: participante.criadoEm,

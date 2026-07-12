@@ -68,6 +68,13 @@ export default function IdentificacaoForm() {
             required
             className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none"
           />
+          <input
+            type="password"
+            name="senha"
+            placeholder="Senha"
+            required
+            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none"
+          />
           <SubmitButton className="w-full" pendingText="Buscando...">
             Entrar
           </SubmitButton>
@@ -86,6 +93,14 @@ export default function IdentificacaoForm() {
             name="telefone"
             placeholder="Telefone / WhatsApp"
             required
+            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none"
+          />
+          <input
+            type="password"
+            name="senha"
+            placeholder="Crie uma senha"
+            required
+            minLength={4}
             className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none"
           />
           <input
