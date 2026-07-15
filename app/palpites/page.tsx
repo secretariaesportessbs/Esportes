@@ -18,7 +18,7 @@ export default async function PalpitesPage() {
           Identifique-se para dar seus palpites
         </h1>
         <p className="mb-8 text-center text-slate-500">
-          Leva menos de um minuto. Nome e telefone já garantem sua vaga no bolão.
+          Leva menos de um minuto. Nome e telefone já garantem sua vaga no Fézinha.
         </p>
         <IdentificacaoForm />
       </div>

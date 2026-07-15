@@ -15,11 +15,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const appName = process.env.NEXT_PUBLIC_APP_NAME || "Bolão Futsal Inverno";
+const appName = process.env.NEXT_PUBLIC_APP_NAME || "Fézinha Futsal Inverno";
 
 export const metadata: Metadata = {
   title: `${appName} — São Bento do Sapucaí`,
-  description: "Bolão online do Campeonato de Futsal de Inverno de São Bento do Sapucaí.",
+  description: "Fézinha online do Campeonato de Futsal de Inverno de São Bento do Sapucaí.",
 };
 
 export default function RootLayout({

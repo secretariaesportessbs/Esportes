@@ -1,6 +1,6 @@
-# Bolão Futsal Inverno — São Bento do Sapucaí
+# Fézinha Futsal Inverno — São Bento do Sapucaí
 
-Bolão online do Campeonato de Futsal de Inverno de São Bento do Sapucaí. Participantes se cadastram, enviam palpites para cada jogo e acompanham o ranking em tempo real. Toda a persistência é feita em uma planilha do Google Sheets.
+Fézinha online do Campeonato de Futsal de Inverno de São Bento do Sapucaí. Participantes se cadastram, enviam palpites para cada jogo e acompanham o ranking em tempo real. Toda a persistência é feita em uma planilha do Google Sheets.
 
 ## Stack
 
@@ -49,7 +49,7 @@ A aplicação cria automaticamente as abas e colunas necessárias na primeira ex
 Copie `.env.example` para `.env` e preencha:
 
 ```
-NEXT_PUBLIC_APP_NAME="Bolão Futsal Inverno"
+NEXT_PUBLIC_APP_NAME="Fézinha Futsal Inverno"
 GOOGLE_PROJECT_ID=seu-projeto
 GOOGLE_CLIENT_EMAIL=nome@projeto.iam.gserviceaccount.com
 GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nMII...\n-----END PRIVATE KEY-----\n"

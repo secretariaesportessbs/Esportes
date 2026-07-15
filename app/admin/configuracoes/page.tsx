@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminConfiguracoesPage() {
   const [nome, descricao] = await Promise.all([
-    obterConfiguracao("nomeCampeonato", "Bolão Futsal Inverno de São Bento do Sapucaí"),
+    obterConfiguracao("nomeCampeonato", "Fézinha Futsal Inverno de São Bento do Sapucaí"),
     obterConfiguracao(
       "descricaoCampeonato",
       "Palpite nos jogos do Campeonato de Futsal de Inverno e dispute o topo do ranking com a galera da cidade."

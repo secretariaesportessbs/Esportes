@@ -9,7 +9,7 @@ import RankingTable from "@/app/components/RankingTable";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const titulo = await obterConfiguracao("nomeCampeonato", "Bolão Futsal Inverno de São Bento do Sapucaí");
+  const titulo = await obterConfiguracao("nomeCampeonato", "Fézinha Futsal Inverno de São Bento do Sapucaí");
   const descricao = await obterConfiguracao(
     "descricaoCampeonato",
     "Palpite nos jogos do Campeonato de Futsal de Inverno e dispute o topo do ranking com a galera da cidade."

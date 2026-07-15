@@ -1,4 +1,4 @@
-const appName = process.env.NEXT_PUBLIC_APP_NAME || "Bolão Futsal Inverno";
+const appName = process.env.NEXT_PUBLIC_APP_NAME || "Fézinha Futsal Inverno";
 
 export default function Footer() {
   return (
