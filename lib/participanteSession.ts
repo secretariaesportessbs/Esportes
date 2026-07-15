@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-const COOKIE_NAME = "bolao_participante_id";
+const COOKIE_NAME = "fezinha_participante_id";
 
 export async function setParticipanteAtual(id: string): Promise<void> {
   const store = await cookies();

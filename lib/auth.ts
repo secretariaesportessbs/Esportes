@@ -1,7 +1,7 @@
 import { createHash } from "crypto";
 import { cookies } from "next/headers";
 
-export const ADMIN_COOKIE_NAME = "bolao_admin_session";
+export const ADMIN_COOKIE_NAME = "fezinha_admin_session";
 
 function expectedToken(): string {
   const senha = process.env.ADMIN_PASSWORD;
