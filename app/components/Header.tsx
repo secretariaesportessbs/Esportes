@@ -8,6 +8,7 @@ const links = [
   { href: "/palpites", label: "Palpites" },
   { href: "/ranking", label: "Ranking" },
   { href: "/participante", label: "Meu painel" },
+  { href: "/regras", label: "Regras" },
 ];
 
 export default function Header() {
